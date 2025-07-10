@@ -13,24 +13,18 @@
       goApp = pkgs.buildGoModule {
         pname = "hello";
         version = "0.1.0";
-
         src = ./.;
         vendorHash = null;
-
-        modRoot = ".";
-        subPackages = [ "." ];
       };
 
       dockerImage = pkgs.dockerTools.buildImage {
         name = "hello";
         tag = "latest";
-
         copyToRoot = pkgs.buildEnv {
           name = "image-root";
           paths = [ goApp ];
           pathsToLink = [ "/bin" ];
         };
-
         config = {
           Cmd = [ "${goApp}/bin/hello" ];
           ExposedPorts = {
